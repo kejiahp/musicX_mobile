@@ -14,7 +14,7 @@ design plans and consider how successful the application is in meeting your aims
 - Landing/Home Screen (auth protected)
 - Artist Screen (auth protected)
 - Album Songs Screens (auth protected)
-- Song Details Bottom Sheet, with CRUD (auth protected)
+- Song Details Modal, with CRUD (auth protected)
 - Song Creation Modal
 
 ## Functional Requirements
@@ -25,7 +25,7 @@ design plans and consider how successful the application is in meeting your aims
 - Display all viable Genres: Horizontal scroll on the landing screen displaying all genres
 - Add song: There should be a add song button at the top right of the lanfing screen together with a log-out button.
 - View song details: Web view to play songs using available links (we will use a bottom sheet for song clicks).
-- View songs by artist: In the song details screen users should be able to click the artists name and view all their albums, on click of an album, the album songs should be displayed.
+- View songs by artist: In the song details screen users should be able to click the artists name and view all their albums, on click of an album, the album songs should be displayed, ParallaxScrollView would be used here.
 - Edit song details: Upon song details edit song data should be invalidated.
 - Delete song: Upon song delete the user should be redirected to he home screen with cache invalidates.
 
