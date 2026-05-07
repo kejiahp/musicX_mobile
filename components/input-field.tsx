@@ -5,7 +5,7 @@ import {
   FocusEvent,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { SIZES } from "@/constants/theme";
+import { Colors, SIZES } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 type Props = TextInputProps & {
@@ -42,11 +42,11 @@ const InputField = React.forwardRef<TextInput, Props>(
           styles.inputField,
           {
             color,
-            borderColor: focused ? tint : color,
+            borderColor: focused ? Colors.light.gray100 : Colors.light.gray300,
           },
           style,
         ]}
-        placeholderTextColor={color}
+        placeholderTextColor={Colors.light.gray300}
         {...props}
       />
     );
