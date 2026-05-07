@@ -13,6 +13,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { AuthProvider } from "@/context/AuthContext";
+import { ToastProvider } from "react-native-toast-notifications";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -34,13 +35,15 @@ export default function RootLayout() {
         <AuthProvider>
           <ApolloProvider client={client}>
             <SafeAreaProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen
-                  name="modal"
-                  options={{ presentation: "modal", title: "Modal" }}
-                />
-              </Stack>
+              <ToastProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen
+                    name="modal"
+                    options={{ presentation: "modal", title: "Modal" }}
+                  />
+                </Stack>
+              </ToastProvider>
             </SafeAreaProvider>
           </ApolloProvider>
         </AuthProvider>

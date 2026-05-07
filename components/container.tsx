@@ -1,10 +1,7 @@
 import { StyleSheet, ViewStyle, StyleProp, View } from "react-native";
 import React, { PropsWithChildren } from "react";
 import { ThemedScrollView, ThemedView } from "./themed-view";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SIZES } from "@/constants/theme";
 
 type Props = {

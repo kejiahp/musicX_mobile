@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import Container from "@/components/container";
 import { FormInputField } from "@/components/formtext-field";
+import ThemedActivityIndicator from "@/components/themed-activityindicator";
 import { ThemedText } from "@/components/themed-text";
 import {
   signup_validation_schema,
@@ -9,12 +10,37 @@ import {
 import { SIGN_UP_OPERATION } from "@/service/auth-queries";
 import { useMutation } from "@apollo/client/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
-import { Alert } from "react-native";
+import { ActivityIndicator, Alert } from "react-native";
+import { useToast } from "react-native-toast-notifications";
+
+type SignUpResponse = {
+  signup: {
+    data: { email: string; name: string };
+    message: string;
+    success: boolean;
+  };
+};
 
 export default function SignUpScreen() {
-  const [createNewUser, { data, loading, error }] =
-    useMutation(SIGN_UP_OPERATION);
+  const toast = useToast();
+  const router = useRouter();
+  const [createNewUser, { loading }] = useMutation(SIGN_UP_OPERATION, {
+    onCompleted(data) {
+      const data_t: SignUpResponse = data as unknown as SignUpResponse;
+      toast.show(data_t.signup.message, {
+        type: "success",
+      });
+
+      router.navigate("/auth/login");
+    },
+    onError(error) {
+      toast.show(error.message ?? "Something went wrong", {
+        type: "danger",
+      });
+    },
+  });
 
   const {
     handleSubmit,
@@ -26,9 +52,13 @@ export default function SignUpScreen() {
   });
 
   const handleOnSubmitHandler = (inputData: TSignUpValidatonSchema) => {
-    console.log(inputData);
-    Alert.alert("LOL", "lolcat");
-    // createNewUser();
+    createNewUser({
+      variables: {
+        name: inputData.name,
+        email: inputData.email,
+        password: inputData.password,
+      },
+    });
   };
 
   return (
@@ -86,8 +116,12 @@ export default function SignUpScreen() {
         defaultValue=""
       />
 
-      <Button onPress={handleSubmit(handleOnSubmitHandler)}>
-        <ThemedText>Create Account</ThemedText>
+      <Button disabled={loading} onPress={handleSubmit(handleOnSubmitHandler)}>
+        {loading ? (
+          <ThemedActivityIndicator />
+        ) : (
+          <ThemedText>Create Account</ThemedText>
+        )}
       </Button>
     </Container>
   );
