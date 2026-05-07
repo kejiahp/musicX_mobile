@@ -1,10 +1,10 @@
+import Container from "@/components/container";
 import { ThemedText } from "@/components/themed-text";
-import { ThemedScrollView } from "@/components/themed-view";
 
 export default function SignUpScreen() {
   return (
-    <ThemedScrollView>
+    <Container isScrollable>
       <ThemedText>Sign Up Screen</ThemedText>
-    </ThemedScrollView>
+    </Container>
   );
 }
