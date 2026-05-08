@@ -12,8 +12,13 @@ import { ApolloProvider } from "@apollo/client/react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { AuthSessionProvider } from "@/context/AuthSessionContext";
+import {
+  AuthSessionProvider,
+  useAuthSession,
+} from "@/context/AuthSessionContext";
 import { ToastProvider } from "react-native-toast-notifications";
+import { SplashScreenController } from "@/components/splash";
+import { useMemo } from "react";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -36,13 +41,8 @@ export default function RootLayout() {
           <ApolloProvider client={client}>
             <SafeAreaProvider>
               <ToastProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="(tabs)" />
-                  <Stack.Screen
-                    name="modal"
-                    options={{ presentation: "modal", title: "Modal" }}
-                  />
-                </Stack>
+                <SplashScreenController />
+                <RootNavigator />
               </ToastProvider>
             </SafeAreaProvider>
           </ApolloProvider>
@@ -50,5 +50,30 @@ export default function RootLayout() {
       </GestureHandlerRootView>
       <StatusBar style="auto" />
     </ThemeProvider>
+  );
+}
+
+function RootNavigator() {
+  const { session } = useAuthSession();
+  const isAssessible = useMemo(() => Boolean(session), [session]);
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={isAssessible}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="create-song"
+          options={{ presentation: "modal", title: "Create Song" }}
+        />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!isAssessible}>
+        <Stack.Screen name="login" options={{ title: "Login" }} />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!isAssessible}>
+        <Stack.Screen name="signup" options={{ title: "Sign Up" }} />
+      </Stack.Protected>
+    </Stack>
   );
 }

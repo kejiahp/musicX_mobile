@@ -123,7 +123,7 @@ export default function LoginScreen() {
 
       <ThemedText style={{ fontSize: SIZES.xsmall, textAlign: "center" }}>
         You don&apos;t have an account?{" "}
-        <Link replace href={"/auth/signup"}>
+        <Link replace href={"/signup"}>
           <Link.Trigger>
             <ThemedText style={{ fontSize: SIZES.xsmall }} type="link">
               Sign up

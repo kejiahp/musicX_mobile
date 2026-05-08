@@ -33,7 +33,7 @@ export default function SignUpScreen() {
       toast.show(data_t.signup.message, {
         type: "success",
       });
-      router.replace("/auth/login");
+      router.replace("/login");
     },
     onError(error) {
       toast.show(error.message ?? "Something went wrong", {
@@ -137,7 +137,7 @@ export default function SignUpScreen() {
 
       <ThemedText style={{ fontSize: SIZES.xsmall, textAlign: "center" }}>
         Already have an account?{" "}
-        <Link replace href={"/auth/login"}>
+        <Link replace href={"/login"}>
           <Link.Trigger>
             <ThemedText style={{ fontSize: SIZES.xsmall }} type="link">
               Login

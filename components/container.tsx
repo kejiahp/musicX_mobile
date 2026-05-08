@@ -32,10 +32,7 @@ export default function Container({
       ]}
     >
       {isScrollable ? (
-        <ThemedScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-        >
+        <ThemedScrollView contentContainerStyle={styles.scrollContent}>
           {content}
         </ThemedScrollView>
       ) : (
