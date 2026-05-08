@@ -1,59 +1,47 @@
-import { StyleSheet, ViewStyle, StyleProp, View } from "react-native";
+import { StyleSheet, ViewStyle, StyleProp } from "react-native";
 import React, { PropsWithChildren } from "react";
 import { ThemedScrollView, ThemedView } from "./themed-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SIZES } from "@/constants/theme";
 
 type Props = {
-  disableInsets?: boolean;
   isScrollable?: boolean;
   outerViewStyle?: StyleProp<ViewStyle>;
   innerViewStyle?: StyleProp<ViewStyle>;
 };
 
 export default function Container({
-  disableInsets,
   children,
   isScrollable,
   outerViewStyle,
   innerViewStyle,
 }: PropsWithChildren<Props>) {
   const insets = useSafeAreaInsets();
+  const content = (
+    <ThemedView style={[styles.innerView, innerViewStyle]}>
+      {children}
+    </ThemedView>
+  );
 
   return (
-    <>
+    <ThemedView
+      style={[
+        styles.outerView,
+        outerViewStyle,
+        { paddingTop: insets.top, paddingBottom: insets.bottom },
+      ]}
+    >
       {isScrollable ? (
         <ThemedScrollView
           showsVerticalScrollIndicator={false}
-          nestedScrollEnabled
-          style={[
-            styles.outerView,
-            outerViewStyle,
-            !disableInsets && {
-              paddingTop: insets.top,
-              paddingBottom: insets.bottom,
-            },
-          ]}
+          contentContainerStyle={styles.scrollContent}
         >
-          <ThemedView style={[styles.innerView, innerViewStyle]}>
-            {children}
-          </ThemedView>
+          {content}
         </ThemedScrollView>
       ) : (
-        <ThemedView
-          style={[
-            styles.innerView,
-            innerViewStyle,
-            !disableInsets && {
-              paddingTop: insets.top,
-              paddingBottom: insets.bottom,
-            },
-          ]}
-        >
-          {children}
-        </ThemedView>
+        content
       )}
-    </>
+    </ThemedView>
   );
 }
 
@@ -62,7 +50,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   innerView: {
-    flex: 1,
     paddingHorizontal: SIZES.small,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
 });

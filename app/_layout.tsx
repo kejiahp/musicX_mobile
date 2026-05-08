@@ -12,7 +12,7 @@ import { ApolloProvider } from "@apollo/client/react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { AuthProvider } from "@/context/AuthContext";
+import { AuthSessionProvider } from "@/context/AuthSessionContext";
 import { ToastProvider } from "react-native-toast-notifications";
 
 export const unstable_settings = {
@@ -32,7 +32,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView>
-        <AuthProvider>
+        <AuthSessionProvider>
           <ApolloProvider client={client}>
             <SafeAreaProvider>
               <ToastProvider>
@@ -46,7 +46,7 @@ export default function RootLayout() {
               </ToastProvider>
             </SafeAreaProvider>
           </ApolloProvider>
-        </AuthProvider>
+        </AuthSessionProvider>
       </GestureHandlerRootView>
       <StatusBar style="auto" />
     </ThemeProvider>

@@ -4,7 +4,7 @@ import {
   type TextInputProps,
   FocusEvent,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Colors, SIZES } from "@/constants/theme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
