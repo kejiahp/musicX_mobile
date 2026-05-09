@@ -49,6 +49,7 @@ export default function CreateSongScreen() {
     setValue,
     control,
     formState: { errors },
+    reset,
     handleSubmit,
   } = useForm<TCreateSongValidationSchema>({
     resolver: zodResolver(create_song_validation_schema),
@@ -93,6 +94,7 @@ export default function CreateSongScreen() {
     {
       onCompleted(data) {
         toast.show(data.createSong.message, { type: "success" });
+        reset();
         router.dismissTo("/");
       },
       onError(error) {

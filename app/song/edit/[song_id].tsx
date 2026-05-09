@@ -11,6 +11,7 @@ import {
   TEditSongValidationSchema,
 } from "@/schema/song-schema";
 import {
+  DELETE_SONG,
   GET_SONG_BY_ARTIST,
   GET_SONG_BY_ID,
   UPDATE_SONG_BY_ID,
@@ -20,8 +21,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Image } from "expo-image";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { useToast } from "react-native-toast-notifications";
+import { boolean } from "zod";
 
 type TEditSongRes = {
   song: {
@@ -84,6 +86,24 @@ export default function EditSong() {
       id: song_id,
     },
   });
+  const [deleteSong, { loading: deleteLoading }] = useMutation<{
+    deleteSong: {
+      success: boolean;
+      message: string;
+      data: null;
+    };
+  }>(DELETE_SONG, {
+    onCompleted(data) {
+      toast.show(data.deleteSong.message, { type: "success" });
+      router.dismissTo("/");
+    },
+    onError(error) {
+      toast.show(error?.message ?? "Something went wrong", {
+        type: "danger",
+      });
+    },
+    refetchQueries: [GET_SONG_BY_ARTIST],
+  });
 
   const [updateSong, { loading: mutationLoading }] =
     useMutation<TUpdateSongRes>(UPDATE_SONG_BY_ID, {
@@ -110,6 +130,17 @@ export default function EditSong() {
         durationSeconds: inputData.durationSeconds,
       },
     });
+  };
+
+  const onDeleteSongHandler = () => {
+    Alert.alert("Delete Song", "Are you sure you want to delete this song?", [
+      { onPress: () => {}, style: "cancel", text: "No" },
+      {
+        onPress: () => deleteSong({ variables: { id: song_id } }),
+        style: "destructive",
+        text: "Yes",
+      },
+    ]);
   };
 
   if (loading) {
@@ -142,6 +173,22 @@ export default function EditSong() {
         />
       }
     >
+      <Button
+        onPress={onDeleteSongHandler}
+        varaint="destructive"
+        size="sm"
+        style={{
+          width: SIZES.xxLarge,
+          height: SIZES.xxLarge,
+          position: "absolute",
+          right: 60,
+          top: 10,
+          zIndex: 10,
+        }}
+      >
+        <IconSymbol size={SIZES.large} color={"white"} name="trash" />
+      </Button>
+
       <Button
         onPress={() => router.dismissTo("/")}
         varaint="default"
@@ -234,10 +281,10 @@ export default function EditSong() {
       />
 
       <Button
-        disabled={mutationLoading}
+        disabled={mutationLoading || deleteLoading}
         onPress={handleSubmit(onSubmitHandler)}
       >
-        {mutationLoading ? (
+        {mutationLoading || deleteLoading ? (
           <ThemedActivityIndicator />
         ) : (
           <ThemedText>Save</ThemedText>

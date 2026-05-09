@@ -147,3 +147,15 @@ export const CREATE_SONG = gql`
     }
   }
 `;
+
+export const DELETE_SONG = gql`
+  mutation DeleteSong($id: UUID!) {
+    deleteSong(id: $id) {
+      success
+      message
+      data {
+        durationSeconds
+      }
+    }
+  }
+`;
