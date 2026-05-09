@@ -23,7 +23,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { Alert, StyleSheet } from "react-native";
 import { useToast } from "react-native-toast-notifications";
-import { boolean } from "zod";
 
 type TEditSongRes = {
   song: {
