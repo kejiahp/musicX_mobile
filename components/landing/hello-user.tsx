@@ -63,7 +63,11 @@ export default function HelloUser() {
 
       <ThemedText
         type="subtitle"
-        style={{ fontSize: SIZES.large, lineHeight: SIZES.large }}
+        style={{
+          fontSize: SIZES.large,
+          lineHeight: SIZES.large,
+          color: Colors.light.primary,
+        }}
       >
         {data?.me.data.name}
       </ThemedText>

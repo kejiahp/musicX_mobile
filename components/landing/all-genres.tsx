@@ -47,7 +47,7 @@ export default function AllGenres() {
               borderRadius: SIZES.small / 4,
             }}
           >
-            <ThemedText style={{ fontSize: SIZES.xsmall }}>
+            <ThemedText style={{ fontSize: SIZES.xsmall, color: "white" }}>
               {item.name}
             </ThemedText>
           </Button>
