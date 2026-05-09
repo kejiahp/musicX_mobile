@@ -10,7 +10,7 @@ import { ExternalLink } from "../external-link";
 import Button from "../button";
 import { IconSymbol } from "../ui/icon-symbol.ios";
 
-type ArtistSongs = {
+export type TArtistSongs = {
   id: string;
   name: string;
   songs: {
@@ -22,6 +22,7 @@ type ArtistSongs = {
       id: string;
     };
     album: {
+      id: string;
       title: string;
       coverImage: string;
     };
@@ -32,7 +33,7 @@ type ArtistSongs = {
 
 export default function SongListing() {
   const { loading, data, error } = useQuery<{
-    artists: ArtistSongs[];
+    artists: TArtistSongs[];
   }>(GET_SONG_BY_ARTIST);
 
   if (loading || error || !data) {
@@ -75,7 +76,7 @@ export default function SongListing() {
   );
 }
 
-function ArtistList({ artistSongs }: { artistSongs: ArtistSongs }) {
+function ArtistList({ artistSongs }: { artistSongs: TArtistSongs }) {
   const router = useRouter();
   return (
     <ThemedView>

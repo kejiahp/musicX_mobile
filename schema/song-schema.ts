@@ -40,8 +40,8 @@ export const create_song_validation_schema = z.object({
     .int()
     .positive()
     .min(5, "Too short!") as z.ZodNumber,
-  artistId: z.uuidv4("Must be valid uuid"),
-  albumId: z.uuidv4("Must be valid uuid"),
+  artistId: z.uuidv4("Artist is required"),
+  albumId: z.uuidv4("Album is required"),
 });
 
 export type TCreateSongValidationSchema = z.infer<

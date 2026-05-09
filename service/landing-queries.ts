@@ -41,6 +41,7 @@ export const GET_SONG_BY_ARTIST = gql`
           id
         }
         album {
+          id
           title
           coverImage
         }
