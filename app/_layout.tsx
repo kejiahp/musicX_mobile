@@ -7,8 +7,6 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { ApolloProvider } from "@apollo/client/react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -19,17 +17,11 @@ import {
 import { ToastProvider } from "react-native-toast-notifications";
 import { SplashScreenController } from "@/components/splash";
 import { useMemo } from "react";
+import ApolloWrapper from "@/context/ApolloWrapper";
 
 export const unstable_settings = {
   anchor: "(tabs)",
 };
-
-// Initialize Apollo Client
-const client = new ApolloClient({
-  link: new HttpLink({ uri: "http://127.0.0.1:8080/graphql" }),
-  cache: new InMemoryCache(),
-  defaultOptions: { watchQuery: { fetchPolicy: "cache-and-network" } },
-});
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -38,14 +30,14 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView>
         <AuthSessionProvider>
-          <ApolloProvider client={client}>
+          <ApolloWrapper>
             <SafeAreaProvider>
               <ToastProvider>
                 <SplashScreenController />
                 <RootNavigator />
               </ToastProvider>
             </SafeAreaProvider>
-          </ApolloProvider>
+          </ApolloWrapper>
         </AuthSessionProvider>
       </GestureHandlerRootView>
       <StatusBar style="auto" />
@@ -62,8 +54,12 @@ function RootNavigator() {
       <Stack.Protected guard={isAssessible}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen
-          name="create-song"
+          name="song/create-song"
           options={{ presentation: "modal", title: "Create Song" }}
+        />
+        <Stack.Screen
+          name="song/edit/[song_id]"
+          options={{ presentation: "modal", title: "Edit Song" }}
         />
       </Stack.Protected>
 

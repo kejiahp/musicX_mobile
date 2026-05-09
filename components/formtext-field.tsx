@@ -10,6 +10,7 @@ export function FormError({ message }: { message: string | undefined }) {
       style={{
         color: Colors.light.destructive,
         fontSize: SIZES.xsmall,
+        lineHeight: SIZES.small,
       }}
     >
       {message}
@@ -25,7 +26,9 @@ interface Props extends TextInputProps {
 export function FormInputField({ errorMessage, label, ...props }: Props) {
   return (
     <View style={styles.container}>
-      <Label style={{ fontSize: SIZES.small }}>{label}</Label>
+      <Label style={{ fontSize: SIZES.small, lineHeight: SIZES.large }}>
+        {label}
+      </Label>
       <InputField {...props} />
       <FormError message={errorMessage} />
     </View>
@@ -34,6 +37,6 @@ export function FormInputField({ errorMessage, label, ...props }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 5,
+    marginVertical: 2,
   },
 });

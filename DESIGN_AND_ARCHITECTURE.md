@@ -11,9 +11,9 @@ design plans and consider how successful the application is in meeting your aims
 
 - Login Screen
 - Sign Up Screen
-- Landing/Home Screen (auth protected)
+- Landing/Home Screen (auth protected): This would display artists and all their songs
 - Artist Screen (auth protected)
-- Album Songs Screens (auth protected)
+<!-- - Album Songs Screens (auth protected): This shows all the albums and all the songs  -->
 - Song Details Modal, with CRUD (auth protected)
 - Song Creation Modal
 

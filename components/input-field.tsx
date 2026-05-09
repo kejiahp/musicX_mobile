@@ -53,6 +53,8 @@ const InputField = React.forwardRef<TextInput, Props>(
   },
 );
 
+InputField.displayName = "InputField";
+
 export default InputField;
 
 const styles = StyleSheet.create({
